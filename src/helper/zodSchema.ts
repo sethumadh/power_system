@@ -116,6 +116,22 @@ export const PSSE_File_Info_Schema = z
     path_to_dyre_file: z.string().min(1, { message: "Input required" }),
     dyre_file_name: z.string().min(1, { message: "Input required" }),
     path_to_dll_folder: z.string().min(1, { message: "Input required" }),
-    case_selection: z.number(), 
+    case_selection: z.number(),
   })
   .partial()
+export const PSSE_File_Info_Schema_ = z.object({
+  case_name: z.string().optional(),
+  PSSE_File: z.array(
+    z.object({
+      file_key: z.string().min(1, { message: "Input required" }),
+      path_to_save_file: z.string().min(1, { message: "Input required" }),
+      sav_file_name: z.string().min(1, { message: "Input required" }),
+      path_to_dyre_file: z.string().min(1, { message: "Input required" }),
+      dyre_file_name: z.string().min(1, { message: "Input required" }),
+      path_to_dll_folder: z.string().min(1, { message: "Input required" }),
+      case_selection: z.number(),
+    })
+  ),
+})
+
+// type test= z.infer<typeof PSSE_File_Info_Schema_>
