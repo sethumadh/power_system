@@ -31,34 +31,56 @@ import {
   setPSSE_File_Info_IsSubmitted,
   setPSSE_File_Info_IsValid,
 } from "@/redux/features/testSlice"
+import { Link } from "react-router-dom"
+import { icons } from "@/constant"
 
 export type Psse_File_Info = z.infer<typeof PSSE_File_Info_Schema>
 type PSSE_File_Info = z.infer<typeof PSSE_File_Info_Schema_>
 
 export default function PSSE_File_Info() {
+  const [isReset, setIsReset] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const dispatch = useAppDispatch()
   const PSSE_File_Info_Is_Submitted = useAppSelector(
     (state) => state.testOption.PSSE_File_Info_Is_Submitted
   )
-
+  const PSSE_File_Info = useAppSelector(
+    (state) => state.testOption.PSSE_File_Info
+  )
   const methods = useForm<PSSE_File_Info>({
     mode: "onChange",
     resolver: zodResolver(PSSE_File_Info_Schema_),
-    defaultValues: {
-      case_name: "case number",
-      PSSE_File: [
-        {
-          case_selection: 0,
-          dyre_file_name: "s",
-          file_key: "s",
-          path_to_dll_folder: "s",
-          path_to_dyre_file: "s",
-          path_to_save_file: "s",
-          sav_file_name: "s",
+    defaultValues: isReset
+      ? {
+          PSSE_File: [
+            {
+              file_key: "",
+              path_to_save_file: "",
+              sav_file_name: "",
+              path_to_dyre_file: "",
+              dyre_file_name: "",
+              path_to_dll_folder: "",
+              case_selection: 0,
+            },
+          ],
+          case_name: "case number",
+        }
+      : {
+          case_name: PSSE_File_Info.case_name
+            ? PSSE_File_Info.case_name
+            : "case number",
+          PSSE_File: PSSE_File_Info.PSSE_File.map((p) => {
+            return {
+              case_selection: p.case_selection,
+              dyre_file_name: p.dyre_file_name,
+              file_key: p.file_key,
+              path_to_dll_folder: p.path_to_dll_folder,
+              path_to_dyre_file: p.path_to_dyre_file,
+              path_to_save_file: p.path_to_save_file,
+              sav_file_name: p.sav_file_name,
+            }
+          }),
         },
-      ],
-    },
     shouldFocusError: true,
   })
   const { control } = methods
@@ -66,10 +88,12 @@ export default function PSSE_File_Info() {
     name: "PSSE_File",
     control,
   })
-
-  const onSubmit: SubmitHandler<PSSE_File_Info> = (data: PSSE_File_Info) => {
-    // dispatch(setPSSE_File_Info(data))
-    console.log(data, "data")
+  const onSubmit = async (data: PSSE_File_Info) => {
+    const validateStep = await methods.trigger()
+    handleSubmit(true)
+    setIsReset(false)
+    dispatch(setPSSE_File_Info_IsValid(validateStep))
+    dispatch(setPSSE_File_Info(data))
 
     // --> send to backend and send to redux
   }
@@ -83,10 +107,10 @@ export default function PSSE_File_Info() {
     setIsSubmitted(bool)
   }
 
-  useEffect(() => {
-    console.log("useeffect")
-  }, [dispatch])
-  console.log(methods.formState.errors, "<<<<--- error")
+  //   }, [watchForm, methods, dispatch])
+  // console.log(methods.formState.errors, "<<<<--- error")
+  console.log(PSSE_File_Info, "redux updated")
+  console.log(isReset)
   return (
     <div className="flex flex-col ">
       <form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
@@ -101,59 +125,59 @@ export default function PSSE_File_Info() {
               <TableHead className="w-[10px]">dyre_file_name</TableHead>
               <TableHead className="w-[10px]">path_to_dll_folder</TableHead>
               <TableHead className="w-[10px]">case_selection</TableHead>
+              <TableHead className="w-[10px] text-center">action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {fields.map((field, index) => (
-              <>
-                <TableRow key={field.id}>
-                  <TableCell className="font-medium py-">
-                    <input
-                      {...methods.register(`PSSE_File.${index}.file_key`)}
-                      className=" border rounded outline-none h-10"
-                      disabled={
-                        PSSE_File_Info_Is_Submitted ||
-                        methods.formState.isSubmitting
-                      }
-                    />
-                    <div className="h-4">
-                      {methods.formState.errors?.PSSE_File &&
-                        methods.formState.errors?.PSSE_File[index]?.file_key
-                          ?.message && (
-                          <span className="text-xs text-red-600">
-                            {
-                              methods.formState.errors?.PSSE_File[index]
-                                ?.file_key?.message
-                            }
-                          </span>
-                        )}
-                    </div>
-                  </TableCell>
-
-                  <TableCell className="">
-                    <input
-                      {...methods.register(
-                        `PSSE_File.${index}.path_to_save_file` as const
+              <TableRow key={field.id}>
+                <TableCell className="font-medium py-">
+                  <input
+                    {...methods.register(`PSSE_File.${index}.file_key`)}
+                    className=" border rounded outline-none h-10"
+                    disabled={
+                      PSSE_File_Info_Is_Submitted ||
+                      methods.formState.isSubmitting
+                    }
+                  />
+                  <div className="h-4">
+                    {methods.formState.errors?.PSSE_File &&
+                      methods.formState.errors?.PSSE_File[index]?.file_key
+                        ?.message && (
+                        <span className="text-xs text-red-600">
+                          {
+                            methods.formState.errors?.PSSE_File[index]?.file_key
+                              ?.message
+                          }
+                        </span>
                       )}
-                      className=" border rounded outline-none h-10"
-                      disabled={
-                        PSSE_File_Info_Is_Submitted ||
-                        methods.formState.isSubmitting
-                      }
-                    />
-                    <div className="h-4">
-                      {methods.formState.errors?.PSSE_File &&
-                        methods.formState.errors?.PSSE_File[index]
-                          ?.path_to_save_file?.message && (
-                          <span className="text-xs text-red-600">
-                            {
-                              methods.formState.errors?.PSSE_File[index]
-                                ?.path_to_save_file?.message
-                            }
-                          </span>
-                        )}
-                    </div>
-                    {/* <p>
+                  </div>
+                </TableCell>
+
+                <TableCell className="">
+                  <input
+                    {...methods.register(
+                      `PSSE_File.${index}.path_to_save_file` as const
+                    )}
+                    className=" border rounded outline-none h-10"
+                    disabled={
+                      PSSE_File_Info_Is_Submitted ||
+                      methods.formState.isSubmitting
+                    }
+                  />
+                  <div className="h-4">
+                    {methods.formState.errors?.PSSE_File &&
+                      methods.formState.errors?.PSSE_File[index]
+                        ?.path_to_save_file?.message && (
+                        <span className="text-xs text-red-600">
+                          {
+                            methods.formState.errors?.PSSE_File[index]
+                              ?.path_to_save_file?.message
+                          }
+                        </span>
+                      )}
+                  </div>
+                  {/* <p>
                   {JSON.stringify(
                     methods.formState.errors.spring_high?.path_to_save_file
                     ?.message,
@@ -161,151 +185,188 @@ export default function PSSE_File_Info() {
                     2
                     )}
                   </p> */}
-                  </TableCell>
-                  <TableCell>
-                    <input
-                      {...methods.register(
-                        `PSSE_File.${index}.sav_file_name` as const
+                </TableCell>
+                <TableCell>
+                  <input
+                    {...methods.register(
+                      `PSSE_File.${index}.sav_file_name` as const
+                    )}
+                    className=" border rounded outline-none h-10"
+                    disabled={
+                      PSSE_File_Info_Is_Submitted ||
+                      methods.formState.isSubmitting
+                    }
+                  />
+                  <div className="h-4">
+                    {methods.formState.errors?.PSSE_File &&
+                      methods.formState.errors?.PSSE_File[index]?.sav_file_name
+                        ?.message && (
+                        <span className="text-xs text-red-600">
+                          {
+                            methods.formState.errors?.PSSE_File[index]
+                              ?.sav_file_name?.message
+                          }
+                        </span>
                       )}
-                      className=" border rounded outline-none h-10"
-                      disabled={
-                        PSSE_File_Info_Is_Submitted ||
-                        methods.formState.isSubmitting
-                      }
-                    />
-                    <div className="h-4">
-                      {methods.formState.errors?.PSSE_File &&
-                        methods.formState.errors?.PSSE_File[index]
-                          ?.sav_file_name?.message && (
-                          <span className="text-xs text-red-600">
-                            {
-                              methods.formState.errors?.PSSE_File[index]
-                                ?.sav_file_name?.message
-                            }
-                          </span>
-                        )}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <input
-                      {...methods.register(
-                        `PSSE_File.${index}.path_to_dyre_file` as const
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <input
+                    {...methods.register(
+                      `PSSE_File.${index}.path_to_dyre_file` as const
+                    )}
+                    className=" border rounded outline-none h-10"
+                    disabled={
+                      PSSE_File_Info_Is_Submitted ||
+                      methods.formState.isSubmitting
+                    }
+                  />
+                  <div className="h-4">
+                    {methods.formState.errors?.PSSE_File &&
+                      methods.formState.errors?.PSSE_File[index]
+                        ?.path_to_dyre_file?.message && (
+                        <span className="text-xs text-red-600">
+                          {
+                            methods.formState.errors?.PSSE_File[index]
+                              ?.path_to_dyre_file?.message
+                          }
+                        </span>
                       )}
-                      className=" border rounded outline-none h-10"
-                      disabled={
-                        PSSE_File_Info_Is_Submitted ||
-                        methods.formState.isSubmitting
-                      }
-                    />
-                    <div className="h-4">
-                      {methods.formState.errors?.PSSE_File &&
-                        methods.formState.errors?.PSSE_File[index]
-                          ?.path_to_dyre_file?.message && (
-                          <span className="text-xs text-red-600">
-                            {
-                              methods.formState.errors?.PSSE_File[index]
-                                ?.path_to_dyre_file?.message
-                            }
-                          </span>
-                        )}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <input
-                      {...methods.register(
-                        `PSSE_File.${index}.dyre_file_name` as const
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <input
+                    {...methods.register(
+                      `PSSE_File.${index}.dyre_file_name` as const
+                    )}
+                    className=" border rounded outline-none h-10"
+                    disabled={
+                      PSSE_File_Info_Is_Submitted ||
+                      methods.formState.isSubmitting
+                    }
+                  />
+                  <div className="h-4">
+                    {methods.formState.errors?.PSSE_File &&
+                      methods.formState.errors?.PSSE_File[index]?.dyre_file_name
+                        ?.message && (
+                        <span className="text-xs text-red-600">
+                          {
+                            methods.formState.errors?.PSSE_File[index]
+                              ?.dyre_file_name?.message
+                          }
+                        </span>
                       )}
-                      className=" border rounded outline-none h-10"
-                      disabled={
-                        PSSE_File_Info_Is_Submitted ||
-                        methods.formState.isSubmitting
-                      }
-                    />
-                    <div className="h-4">
-                      {methods.formState.errors?.PSSE_File &&
-                        methods.formState.errors?.PSSE_File[index]
-                          ?.dyre_file_name?.message && (
-                          <span className="text-xs text-red-600">
-                            {
-                              methods.formState.errors?.PSSE_File[index]
-                                ?.dyre_file_name?.message
-                            }
-                          </span>
-                        )}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <input
-                      {...methods.register(
-                        `PSSE_File.${index}.path_to_dll_folder` as const
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <input
+                    {...methods.register(
+                      `PSSE_File.${index}.path_to_dll_folder` as const
+                    )}
+                    className=" border rounded outline-none h-10 "
+                    disabled={
+                      PSSE_File_Info_Is_Submitted ||
+                      methods.formState.isSubmitting
+                    }
+                  />
+                  <div className="h-4">
+                    {methods.formState.errors?.PSSE_File &&
+                      methods.formState.errors?.PSSE_File[index]
+                        ?.path_to_dll_folder?.message && (
+                        <span className="text-xs text-red-600">
+                          {
+                            methods.formState.errors?.PSSE_File[index]
+                              ?.path_to_dll_folder?.message
+                          }
+                        </span>
                       )}
-                      className=" border rounded outline-none h-10 "
-                      disabled={
-                        PSSE_File_Info_Is_Submitted ||
-                        methods.formState.isSubmitting
-                      }
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="text-center">
+                    <Controller
+                      name={`PSSE_File.${index}.case_selection`}
+                      control={methods.control}
+                      render={({ field }) => (
+                        <input
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          type="checkbox"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.checked))
+                          }
+                          checked={field.value === 1}
+                        />
+                      )}
                     />
-                    <div className="h-4">
-                      {methods.formState.errors?.PSSE_File &&
-                        methods.formState.errors?.PSSE_File[index]
-                          ?.path_to_dll_folder?.message && (
-                          <span className="text-xs text-red-600">
-                            {
-                              methods.formState.errors?.PSSE_File[index]
-                                ?.path_to_dll_folder?.message
-                            }
-                          </span>
-                        )}
+                  </div>
+                  <div className="h-4"></div>
+                </TableCell>
+
+                {index > 0 && (
+                  <TableCell
+                    className=" flex justify-center "
+                    onClick={() => {
+                      remove(index)
+                    }}
+                  >
+                    <div className="  text-red-500 text-center  disabled:bg-slate-300  bg-white hover:bg-slate-200 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-2 py-2 mr-2 mt-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                      <icons.RiDeleteBin5Line />
                     </div>
+                    {/* <div className="h-4 w-4"></div> */}
                   </TableCell>
-                  <TableCell>
-                    <div className="text-center">
-                      <Controller
-                        name={`PSSE_File.${index}.case_selection`}
-                        control={methods.control}
-                        render={({ field }) => (
-                          <input
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                            type="checkbox"
-                            {...field}
-                            onChange={(e) =>
-                              field.onChange(Number(e.target.checked))
-                            }
-                            checked={field.value === 1}
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className="h-4"></div>
-                  </TableCell>
-                  {index > 0 && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        remove(index)
-                      }}
-                      className="text-white disabled:bg-slate-300 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                    >
-                      Remove
-                    </button>
-                  )}
-                </TableRow>
-              </>
+                )}
+              </TableRow>
             ))}
           </TableBody>
         </Table>
-        <div className="flex space-x-8 mt-20">
-          {/* <Button variant="outline" type="submit">
-              submit
-            </Button> */}
+        <div className="flex flex-col justify-center items-center">
+          <button
+            type="button"
+            onClick={() => {
+              append({
+                case_selection: 0,
+                dyre_file_name: "",
+                file_key: "",
+                path_to_dll_folder: "",
+                path_to_dyre_file: "",
+                path_to_save_file: "",
+                sav_file_name: "",
+              })
+            }}
+            className=" max-w-max text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          >
+            Add
+          </button>
+          <h1>
+            Click <span className="font-semibold">Add</span> to add a new row
+          </h1>
+        </div>
+        <div className="flex space-x-8 mt-20 ">
           <Button
             variant="outline"
             type="button"
             onClick={async () => {
-              console.log("hello")
               const validateStep = await methods.trigger()
               dispatch(setPSSE_File_Info_IsValid(validateStep))
-              dispatch(setPSSE_File_Info(methods.getValues()))
+              dispatch(
+                setPSSE_File_Info({
+                  case_name: methods.getValues().case_name,
+                  PSSE_File: methods.getValues().PSSE_File.map((p) => {
+                    return {
+                      case_selection: p.case_selection,
+                      dyre_file_name: p.dyre_file_name,
+                      file_key: p.file_key,
+                      path_to_dll_folder: p.path_to_dll_folder,
+                      path_to_dyre_file: p.path_to_dyre_file,
+                      path_to_save_file: p.path_to_save_file,
+                      sav_file_name: p.sav_file_name,
+                    }
+                  }),
+                })
+              )
+
+              setIsReset(false)
             }}
             disabled={PSSE_File_Info_Is_Submitted || isSubmitted}
           >
@@ -314,14 +375,6 @@ export default function PSSE_File_Info() {
           <Button
             variant="outline"
             type="submit"
-            onClick={() => {
-              console.log("hello")
-              // const validateStep = await methods.trigger()
-              // handleSubmit()
-              // dispatch(setPSSE_File_Info_IsValid(validateStep))
-              dispatch(setPSSE_File_Info(methods.getValues()))
-              handleSubmit(true)
-            }}
             disabled={
               !methods.formState.isValid ||
               PSSE_File_Info_Is_Submitted ||
@@ -344,33 +397,45 @@ export default function PSSE_File_Info() {
             variant="outline"
             type="button"
             onClick={() => {
-              methods.reset()
-              console.log(methods.getValues())
+              // methods.reset()
+              methods.setValue("PSSE_File", [
+                {
+                  file_key: "",
+                  path_to_save_file: "",
+                  sav_file_name: "",
+                  path_to_dyre_file: "",
+                  dyre_file_name: "",
+                  path_to_dll_folder: "",
+                  case_selection: 0,
+                },
+              ])
+              methods.setValue("case_name", "Reset")
+              console.log(methods.getValues(), "--->>> reset values")
+              dispatch(
+                setPSSE_File_Info({
+                  case_name: "",
+                  PSSE_File: [
+                    {
+                      file_key: "",
+                      path_to_save_file: "",
+                      sav_file_name: "",
+                      path_to_dyre_file: "",
+                      dyre_file_name: "",
+                      path_to_dll_folder: "",
+                      case_selection: 0,
+                    },
+                  ],
+                })
+              )
               dispatch(setPSSE_File_Info_IsValid(false))
-              dispatch(setPSSE_File_Info(initialState.PSSE_File_Info))
+              setIsReset(true)
+
               // methods.setValue(initialState.PSSE_File_Info)
             }}
           >
             Reset
           </Button>
         </div>
-        <button
-          type="button"
-          onClick={() => {
-            append({
-              case_selection: 0,
-              dyre_file_name: "s",
-              file_key: "s",
-              path_to_dll_folder: "s",
-              path_to_dyre_file: "s",
-              path_to_save_file: "s",
-              sav_file_name: "s",
-            })
-          }}
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        >
-          Add
-        </button>
       </form>
     </div>
   )

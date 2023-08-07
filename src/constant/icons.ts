@@ -23,6 +23,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import { FcClock } from "react-icons/fc"
 import InsightsIcon from "@mui/icons-material/Insights"
 import OnlinePredictionIcon from "@mui/icons-material/OnlinePrediction"
+import { RiDeleteBin5Line } from "react-icons/ri"
 
 import {
   PresentationChartBarIcon,
@@ -31,6 +32,7 @@ import {
 } from "@heroicons/react/24/solid"
 
 export default {
+  RiDeleteBin5Line,
   InsightsIcon,
   OnlinePredictionIcon,
   ArrowBackIcon,

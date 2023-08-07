@@ -46,10 +46,10 @@ const testSlice = createSlice({
       state.testOption = action.payload
     },
     setPSSE_File_Info: (state, action: PayloadAction<PSSE_File_Info>) => {
-      console.log(action.payload, "redux")
-      // if (state.PSSE_File_Info) {
-      //   state.PSSE_File_Info.PSSE_File = action.payload.PSSE_File
-      // }
+      // console.log(action.payload, "redux")
+      if (state.PSSE_File_Info) {
+        state.PSSE_File_Info = action.payload
+      }
     },
     setPSSE_File_Info_IsValid: (state, action: PayloadAction<boolean>) => {
       // console.log(action.payload, "redux")
