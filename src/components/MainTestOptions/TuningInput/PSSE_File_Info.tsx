@@ -108,9 +108,9 @@ export default function PSSE_File_Info() {
   }
 
   //   }, [watchForm, methods, dispatch])
-  // console.log(methods.formState.errors, "<<<<--- error")
+  // console.log(methods.formState.errors.root, "<<<<--- error")
   console.log(PSSE_File_Info, "redux updated")
-  console.log(isReset)
+  // console.log(isReset)
   return (
     <div className="flex flex-col ">
       <form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
@@ -302,7 +302,17 @@ export default function PSSE_File_Info() {
                   </div>
                   <div className="h-4"></div>
                 </TableCell>
-
+                {index == 0 && (
+                  <TableCell
+                    className=" flex justify-center "
+                    
+                  >
+                    <div className=" text-slate-400 text-cente   bg-white  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-2 py-2 mr-2 mt-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-not-allowed ">
+                      <icons.RiDeleteBin5Line />
+                    </div>
+                    {/* <div className="h-4 w-4"></div> */}
+                  </TableCell>
+                )}
                 {index > 0 && (
                   <TableCell
                     className=" flex justify-center "
@@ -310,7 +320,7 @@ export default function PSSE_File_Info() {
                       remove(index)
                     }}
                   >
-                    <div className="  text-red-500 text-center  disabled:bg-slate-300  bg-white hover:bg-slate-200 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-2 py-2 mr-2 mt-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                    <div className=" cursor-pointer text-red-500 text-center  disabled:bg-slate-300  bg-white hover:bg-slate-200 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-2 py-2 mr-2 mt-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                       <icons.RiDeleteBin5Line />
                     </div>
                     {/* <div className="h-4 w-4"></div> */}
