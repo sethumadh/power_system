@@ -18,12 +18,14 @@ import PageNotFound from "./pages/PageNotFound"
 import Signin from "./pages/Signin"
 
 import { store } from "./redux/store"
+import { Test } from "./pages/test"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<DashboardLayout />}>
         <Route index element={<Dashboard />} />
+        <Route path="/test" element={<Test/>} />
       </Route>
 
       <Route path="/login" element={<Signin />} />

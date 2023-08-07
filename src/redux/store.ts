@@ -22,13 +22,13 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage,
-  blacklist: [ sidebarSlice.name, testSlice.name],
+  blacklist: [sidebarSlice.name, testSlice.name],
 }
 export const reducer = combineReducers({
   [api.reducerPath]: api.reducer, // this is my RTK Query
   [userSlice.name]: userSlice.reducer,
   [sidebarSlice.name]: sidebarSlice.reducer,
-  [testSlice.name]:testSlice.reducer
+  [testSlice.name]: testSlice.reducer,
 })
 const persistedReducer = persistReducer(persistConfig, reducer)
 
@@ -36,9 +36,9 @@ const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      thunk: true,
+      immutableCheck: false,
+      serializableCheck: false,
     }).concat(api.middleware),
 })
 const persistor = persistStore(store)
