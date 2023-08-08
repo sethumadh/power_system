@@ -303,26 +303,30 @@ export default function PSSE_File_Info() {
                   <div className="h-4"></div>
                 </TableCell>
                 {index == 0 && (
-                  <TableCell
-                    className=" flex justify-center "
-                    
-                  >
-                    <div className=" text-slate-400 text-cente   bg-white  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-2 py-2 mr-2 mt-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-not-allowed ">
+                  <TableCell className=" flex justify-center ">
+                    <div className=" text-slate-400 text-center bg-white  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-2 py-2 mr-2 mt-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-not-allowed ">
                       <icons.RiDeleteBin5Line />
                     </div>
                     {/* <div className="h-4 w-4"></div> */}
                   </TableCell>
                 )}
                 {index > 0 && (
-                  <TableCell
-                    className=" flex justify-center "
-                    onClick={() => {
-                      remove(index)
-                    }}
-                  >
-                    <div className=" cursor-pointer text-red-500 text-center  disabled:bg-slate-300  bg-white hover:bg-slate-200 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-2 py-2 mr-2 mt-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                      <icons.RiDeleteBin5Line />
-                    </div>
+                  <TableCell className=" flex justify-center ">
+                    {!PSSE_File_Info_Is_Submitted && (
+                      <div
+                        onClick={() => {
+                          remove(index)
+                        }}
+                        className=" cursor-pointer text-red-500 text-center  disabled:bg-slate-300  bg-white hover:bg-slate-200 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-2 py-2 mr-2 mt-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                      >
+                        <icons.RiDeleteBin5Line />
+                      </div>
+                    )}
+                    {PSSE_File_Info_Is_Submitted && (
+                      <div className=" cursor-not-allowed text-slate-400 text-center  disabled:bg-slate-300  bg-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-2 py-2 mr-2 mt-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        <icons.RiDeleteBin5Line />
+                      </div>
+                    )}
                     {/* <div className="h-4 w-4"></div> */}
                   </TableCell>
                 )}
@@ -332,6 +336,7 @@ export default function PSSE_File_Info() {
         </Table>
         <div className="flex flex-col justify-center items-center">
           <button
+            disabled={PSSE_File_Info_Is_Submitted}
             type="button"
             onClick={() => {
               append({
@@ -344,7 +349,7 @@ export default function PSSE_File_Info() {
                 sav_file_name: "",
               })
             }}
-            className=" max-w-max text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            className="disabled:cursor-not-allowed disabled:bg-slate-300 max-w-max text-white bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           >
             Add
           </button>
