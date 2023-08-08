@@ -33,6 +33,7 @@ import {
 } from "@/redux/features/testSlice"
 import { Link } from "react-router-dom"
 import { icons } from "@/constant"
+import { HoverCardInfo } from "@/components/HoverCard"
 
 export type Psse_File_Info = z.infer<typeof PSSE_File_Info_Schema>
 type PSSE_File_Info = z.infer<typeof PSSE_File_Info_Schema_>
@@ -118,14 +119,94 @@ export default function PSSE_File_Info() {
           <TableCaption className="py-8">PSSE File information.</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[10px]">file_key</TableHead>
-              <TableHead className="w-[10px]">path_to_save_file</TableHead>
-              <TableHead className="w-[10px]">sav_file_name</TableHead>
-              <TableHead className="w-[10px]">path_to_dyre_file</TableHead>
-              <TableHead className="w-[10px]">dyre_file_name</TableHead>
-              <TableHead className="w-[10px]">path_to_dll_folder</TableHead>
-              <TableHead className="w-[10px]">case_selection</TableHead>
-              <TableHead className="w-[10px] text-center">action</TableHead>
+              <TableHead className="w-[10px] text-muted-foreground ">
+                <div className="flex items-center">
+                  <h1>file_key</h1>
+                  <div>
+                    <HoverCardInfo
+                      title="file_key"
+                      message={`file_key has to be unique in each row`}
+                    />
+                  </div>
+                </div>
+              </TableHead>
+              <TableHead className="w-[10px] text-muted-foreground ">
+                <div className="flex items-center">
+                  <h1>path_to_save_file</h1>
+                  <div className="w-">
+                    <HoverCardInfo
+                      title="file_key"
+                      message={`file_key has to be unique in each row`}
+                    />
+                  </div>
+                </div>
+              </TableHead>
+              <TableHead className="w-[10px] text-muted-foreground ">
+                <div className="flex items-center">
+                  <h1>sav_file_name</h1>
+                  <div>
+                    <HoverCardInfo
+                      title="file_key"
+                      message={`file_key has to be unique in each row`}
+                    />
+                  </div>
+                </div>
+              </TableHead>
+              <TableHead className="w-[10px] text-muted-foreground ">
+                <div className="flex items-center">
+                  <h1>path_to_dyre_file</h1>
+                  <div>
+                    <HoverCardInfo
+                      title="file_key"
+                      message={`file_key has to be unique in each row`}
+                    />
+                  </div>
+                </div>
+              </TableHead>
+              <TableHead className="w-[10px] text-muted-foreground ">
+                <div className="flex items-center">
+                  <h1>dyre_file_name</h1>
+                  <div>
+                    <HoverCardInfo
+                      title="file_key"
+                      message={`file_key has to be unique in each row`}
+                    />
+                  </div>
+                </div>
+              </TableHead>
+              <TableHead className="w-[10px] text-muted-foreground ">
+                <div className="flex items-center">
+                  <h1>path_to_dll_folder</h1>
+                  <div>
+                    <HoverCardInfo
+                      title="file_key"
+                      message={`file_key has to be unique in each row`}
+                    />
+                  </div>
+                </div>
+              </TableHead>
+              <TableHead className="w-[10px] text-muted-foreground ">
+                <div className="flex items-center">
+                  <h1>case_selection</h1>
+                  <div>
+                    <HoverCardInfo
+                      title="file_key"
+                      message={`file_key has to be unique in each row`}
+                    />
+                  </div>
+                </div>
+              </TableHead>
+              <TableHead className="w-[10px] text-muted-foreground ">
+                <div className="flex items-center">
+                  <h1>action</h1>
+                  <div>
+                    <HoverCardInfo
+                      title="file_key"
+                      message={`file_key has to be unique in each row`}
+                    />
+                  </div>
+                </div>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
