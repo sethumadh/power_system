@@ -127,7 +127,7 @@ export default function PSSE_File_Info() {
   console.log(PSSE_File_Info, "redux updated")
   // console.log(isReset)
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col">
       <form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
         <Table className="">
           <TableCaption className="py-8">PSSE File information.</TableCaption>

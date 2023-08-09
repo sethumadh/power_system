@@ -22,7 +22,7 @@ const TuningInput = () => {
             role="tablist"
           >
             <li
-              className={`-mb-px mx-2 last:mr-0 flex  items-center space-x-2 text-xs font-bold px-5 py-3  lowercase shadow-lg rounded leading-normal cursor-pointer ${
+              className={`-mb-px mr-2 last:mr-0 flex  items-center space-x-2 text-xs font-bold px-5 py-3  lowercase shadow-lg rounded leading-normal cursor-pointer ${
                 openTab === TuningInputOptions.PSSE_File_Info
                   ? "text-white bg-red-600"
                   : "text-" + "red" + "-600 bg-white"
@@ -103,7 +103,7 @@ const TuningInput = () => {
               general_settngs
             </li>
           </ul>
-          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded mx-2 ">
+          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg ">
             <div className="px-4 py-5 flex-auto">
               <div className="tab-content tab-space">
                 <div
