@@ -124,7 +124,7 @@ export default function PSSE_File_Info() {
 
   //   }, [watchForm, methods, dispatch])
   // console.log(methods.formState.errors.root, "<<<<--- error")
-  // console.log(PSSE_File_Info, "redux updated")
+  console.log(PSSE_File_Info, "redux updated")
   // console.log(isReset)
   return (
     <div className="flex flex-col ">
@@ -315,15 +315,45 @@ export default function PSSE_File_Info() {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <input
-                    {...methods.register(
-                      `PSSE_File.${index}.path_to_dyre_file` as const
-                    )}
-                    className=" border rounded outline-none h-10"
-                    disabled={
-                      PSSE_File_Info_Is_Submitted ||
-                      methods.formState.isSubmitting
-                    }
+                  <Controller
+                    control={control}
+                    name={`PSSE_File.${index}.path_to_dyre_file` as const}
+                    render={({ field: { value, onChange, ...field } }) => {
+                      return (
+                        <>
+                          <input
+                            type="file"
+                            {...field}
+                            onChange={(event) => {
+                              onChange(
+                                event.target.files && event.target.files[0].name
+                              )
+                            }}
+                            // className=" border rounded outline-none "
+                            className="opacity-0 absolute"
+                            disabled={
+                              PSSE_File_Info_Is_Submitted ||
+                              methods.formState.isSubmitting
+                            }
+                          />
+                          {/* <p>{JSON.stringify(value, null, 2)}</p> */}
+                          <div className="w-32  truncate">
+                            {value ? (
+                              <div className=" border rounded outline-none px-2 py-2">
+                                {value}
+                              </div>
+                            ) : (
+                              <div className="flex items-center justify-center space-x-2 w-full cursor-pointer border rounded outline-none h-10">
+                                <div className="">
+                                  <icons.AiOutlineCloudUpload />
+                                </div>
+                                <h2>Upload</h2>
+                              </div>
+                            )}
+                          </div>
+                        </>
+                      )
+                    }}
                   />
                   <div className="h-12">
                     {methods.formState.errors?.PSSE_File &&
@@ -339,15 +369,45 @@ export default function PSSE_File_Info() {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <input
-                    {...methods.register(
-                      `PSSE_File.${index}.dyre_file_name` as const
-                    )}
-                    className=" border rounded outline-none h-10"
-                    disabled={
-                      PSSE_File_Info_Is_Submitted ||
-                      methods.formState.isSubmitting
-                    }
+                  <Controller
+                    control={control}
+                    name={`PSSE_File.${index}.dyre_file_name` as const}
+                    render={({ field: { value, onChange, ...field } }) => {
+                      return (
+                        <>
+                          <input
+                            type="file"
+                            {...field}
+                            onChange={(event) => {
+                              onChange(
+                                event.target.files && event.target.files[0].name
+                              )
+                            }}
+                            // className=" border rounded outline-none "
+                            className="opacity-0 absolute"
+                            disabled={
+                              PSSE_File_Info_Is_Submitted ||
+                              methods.formState.isSubmitting
+                            }
+                          />
+                          {/* <p>{JSON.stringify(value, null, 2)}</p> */}
+                          <div className="w-32  truncate">
+                            {value ? (
+                              <div className=" border rounded outline-none px-2 py-2">
+                                {value}
+                              </div>
+                            ) : (
+                              <div className="flex items-center justify-center space-x-2 w-full cursor-pointer border rounded outline-none h-10">
+                                <div className="">
+                                  <icons.AiOutlineCloudUpload />
+                                </div>
+                                <h2>Upload</h2>
+                              </div>
+                            )}
+                          </div>
+                        </>
+                      )
+                    }}
                   />
                   <div className="h-12">
                     {methods.formState.errors?.PSSE_File &&
@@ -363,25 +423,48 @@ export default function PSSE_File_Info() {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <label
-                    htmlFor="fileupload
-                  "
-                    className="text-sm bg-stone-200 hover:bg-stone-300"
-                  >
-                    <input
-                      type="file"
-                      {...methods.register(
-                        `PSSE_File.${index}.path_to_dll_folder` as const
-                      )}
-                      // className=" border rounded outline-none "
-                      className="opacity-0 absolute h-10"
-                      disabled={
-                        PSSE_File_Info_Is_Submitted ||
-                        methods.formState.isSubmitting
-                      }
-                    />
-                    Upload File
-                  </label>
+                  <Controller
+                    control={control}
+                    name={`PSSE_File.${index}.path_to_dll_folder` as const}
+                    render={({ field: { value, onChange, ...field } }) => {
+                      return (
+                        <>
+                          <input
+                            type="file"
+                            {...field}
+                            // value={"hello"}
+                            onChange={(event) => {
+                              onChange(
+                                event.target.files && event.target.files[0].name
+                              )
+                            }}
+                            // className=" border rounded outline-none "
+                            className="opacity-0 absolute"
+                            disabled={
+                              PSSE_File_Info_Is_Submitted ||
+                              methods.formState.isSubmitting
+                            }
+                          />
+                          {/* <p>{JSON.stringify(value, null, 2)}</p> */}
+                          <div className="w-32  truncate">
+                            {value ? (
+                              <div className=" border rounded outline-none px-2 py-2">
+                                {value}
+                              </div>
+                            ) : (
+                              <div className="flex items-center justify-center space-x-2 w-full cursor-pointer border rounded outline-none h-10">
+                                <div className="">
+                                  <icons.AiOutlineCloudUpload />
+                                </div>
+                                <h2>Upload</h2>
+                              </div>
+                            )}
+                          </div>
+                        </>
+                      )
+                    }}
+                  />
+
                   <div className="h-12">
                     {methods.formState.errors?.PSSE_File &&
                       methods.formState.errors?.PSSE_File[index]

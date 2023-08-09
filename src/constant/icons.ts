@@ -25,7 +25,8 @@ import InsightsIcon from "@mui/icons-material/Insights"
 import OnlinePredictionIcon from "@mui/icons-material/OnlinePrediction"
 import { RiDeleteBin5Line } from "react-icons/ri"
 import { RiInformationLine } from "react-icons/ri"
-import { MdOutlineAddAlert } from "react-icons/md";
+import { MdOutlineAddAlert } from "react-icons/md"
+import { AiOutlineCloudUpload } from "react-icons/ai"
 
 MdOutlineAddAlert
 
@@ -36,6 +37,7 @@ import {
 } from "@heroicons/react/24/solid"
 
 export default {
+  AiOutlineCloudUpload,
   MdOutlineAddAlert,
   RiInformationLine,
   RiDeleteBin5Line,
